@@ -71,6 +71,7 @@ fn color_squares(
     }
 }
 
+#[derive(Resource)]
 struct SquareMaterials {
     highlight_color: Handle<StandardMaterial>,
     selected_color: Handle<StandardMaterial>,
@@ -93,14 +94,15 @@ impl FromWorld for SquareMaterials {
     }
 }
 
-#[derive(Default)]
+#[derive(Default, Resource)]
 struct SelectedSquare {
     entity: Option<Entity>,
 }
-#[derive(Default)]
+#[derive(Default, Resource)]
 struct SelectedPiece {
     entity: Option<Entity>,
 }
+#[derive(Resource)]
 pub struct PlayerTurn(pub PieceColor);
 impl Default for PlayerTurn {
     fn default() -> Self {
