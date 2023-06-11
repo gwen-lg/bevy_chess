@@ -2,6 +2,7 @@ use crate::{board::*, pieces::*};
 use bevy::prelude::*;
 
 // Component to mark the Text entity
+#[derive(Component)]
 struct NextMoveText;
 
 /// Initialize UiCamera and text

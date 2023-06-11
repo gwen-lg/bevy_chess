@@ -2,6 +2,7 @@ use crate::pieces::*;
 use bevy::{app::AppExit, prelude::*};
 use bevy_mod_picking::*;
 
+#[derive(Component)]
 pub struct Square {
     pub x: u8,
     pub y: u8,
@@ -253,6 +254,7 @@ fn reset_selected(
     }
 }
 
+#[derive(Component)]
 struct Taken;
 fn despawn_taken_pieces(
     mut commands: Commands,

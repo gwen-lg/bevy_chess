@@ -16,7 +16,7 @@ pub enum PieceType {
     Pawn,
 }
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy,Component)]
 pub struct Piece {
     pub color: PieceColor,
     pub piece_type: PieceType,
