@@ -12,14 +12,15 @@ fn main() {
     App::new()
         // Set antialiasing to use 4 samples
         .insert_resource(Msaa { samples: 4 })
-        // Set WindowDescriptor Resource to change title and size
-        .insert_resource(WindowDescriptor {
-            title: "Chess!".to_string(),
-            width: 600.,
-            height: 600.,
-            ..Default::default()
-        })
-        .add_plugins(DefaultPlugins)
+        .add_plugins(DefaultPlugins.set(WindowPlugin {
+            window: WindowDescriptor {
+                title: "Chess!".to_string(),
+                width: 600.,
+                height: 600.,
+              ..default()
+            },
+            ..default()
+          }))
         .init_resource::<PickingCamera>()
         .add_plugin(PickingPlugin)
         .add_plugin(BoardPlugin)
