@@ -279,7 +279,7 @@ fn despawn_taken_pieces(
 
 pub struct BoardPlugin;
 impl Plugin for BoardPlugin {
-    fn build(&self, app: &mut AppBuilder) {
+    fn build(&self, app: &mut App) {
         app.init_resource::<SelectedSquare>()
             .init_resource::<SelectedPiece>()
             .init_resource::<SquareMaterials>()

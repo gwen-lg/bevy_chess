@@ -621,7 +621,7 @@ fn spawn_pawn(
 
 pub struct PiecesPlugin;
 impl Plugin for PiecesPlugin {
-    fn build(&self, app: &mut AppBuilder) {
+    fn build(&self, app: &mut App) {
         app.add_startup_system(create_pieces)
             .add_system(move_pieces);
     }

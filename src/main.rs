@@ -9,7 +9,7 @@ mod ui;
 use ui::*;
 
 fn main() {
-    App::build()
+    App::new()
         // Set antialiasing to use 4 samples
         .insert_resource(Msaa { samples: 4 })
         // Set WindowDescriptor Resource to change title and size

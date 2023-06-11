@@ -73,7 +73,7 @@ fn log_text_changes(query: Query<&Text, Changed<Text>>) {
 
 pub struct UIPlugin;
 impl Plugin for UIPlugin {
-    fn build(&self, app: &mut AppBuilder) {
+    fn build(&self, app: &mut App) {
         app.add_startup_system(init_next_move_text)
             .add_system(next_move_text_update)
             .add_system(log_text_changes);
