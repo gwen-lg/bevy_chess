@@ -6,13 +6,8 @@ use bevy::prelude::*;
 struct NextMoveText;
 
 /// Initialize UiCamera and text
-fn init_next_move_text(
-    mut commands: Commands,
-    asset_server: ResMut<AssetServer>,
-    mut color_materials: ResMut<Assets<ColorMaterial>>,
-) {
+fn init_next_move_text(mut commands: Commands, asset_server: ResMut<AssetServer>) {
     let font = asset_server.load("fonts/FiraSans-Bold.ttf");
-    let material = color_materials.add(Color::NONE.into());
 
     commands
         .spawn_bundle(UiCameraBundle::default())
@@ -28,7 +23,7 @@ fn init_next_move_text(
                 },
                 ..Default::default()
             },
-            material,
+            color: Color::NONE,
             ..Default::default()
         })
         .with_children(|parent| {
