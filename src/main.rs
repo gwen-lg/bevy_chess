@@ -25,7 +25,7 @@ fn main() {
         .add_plugin(BoardPlugin)
         .add_plugin(PiecesPlugin)
         .add_plugin(UIPlugin)
-        .add_startup_system(setup.system())
+        .add_startup_system(setup)
         .run();
 }
 
