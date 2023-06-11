@@ -10,7 +10,6 @@ fn init_next_move_text(mut commands: Commands, asset_server: ResMut<AssetServer>
     let font = asset_server.load("fonts/FiraSans-Bold.ttf");
 
     commands
-        .spawn_bundle(UiCameraBundle::default())
         // root node
         .commands()
         .spawn_bundle(NodeBundle {
