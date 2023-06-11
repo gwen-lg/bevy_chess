@@ -15,7 +15,7 @@ fn init_next_move_text(mut commands: Commands, asset_server: ResMut<AssetServer>
         .spawn_bundle(NodeBundle {
             style: Style {
                 position_type: PositionType::Absolute,
-                position: Rect {
+                position: UiRect {
                     left: Val::Px(10.),
                     top: Val::Px(10.),
                     ..Default::default()
