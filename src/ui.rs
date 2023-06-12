@@ -28,14 +28,13 @@ fn init_next_move_text(mut commands: Commands, asset_server: ResMut<AssetServer>
         .with_children(|parent| {
             parent
                 .spawn_bundle(TextBundle {
-                    text: Text::with_section(
+                    text: Text::from_section(
                         "Next move: White",
                         TextStyle {
                             font: font.clone(),
                             font_size: 40.0,
                             color: Color::rgb(0.8, 0.8, 0.8),
                         },
-                        Default::default(),
                     ),
                     ..Default::default()
                 })
