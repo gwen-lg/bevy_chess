@@ -12,7 +12,7 @@ use ui::*;
 fn main() {
     App::new()
         // Set antialiasing to use 4 samples
-        .insert_resource(Msaa { samples: 4 })
+        .insert_resource(Msaa::Sample4)
         .add_plugins(DefaultPlugins.set(WindowPlugin {
             primary_window: Some(Window {
                 title: "Chess!".to_string(),
