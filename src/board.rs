@@ -19,7 +19,7 @@ fn create_board(
     materials: Res<SquareMaterials>,
 ) {
     // Add meshes
-    let mesh = meshes.add(Mesh::from(shape::Plane { size: 1. }));
+    let mesh = meshes.add(Mesh::from(shape::Plane::from_size(1.)));
 
     // Spawn 64 squares
     for i in 0..8 {
