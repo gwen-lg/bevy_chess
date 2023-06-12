@@ -281,6 +281,15 @@ fn despawn_taken_pieces(
     }
 }
 
+#[derive(Debug, Hash, PartialEq, Eq, Clone, SystemSet)]
+#[system_set(base)]
+enum MySystem {
+    SelectSquare,
+    MovePiece, // move_piece needs to run before select_piece
+    SelectPiece,
+    ResetSelected,
+}
+
 pub struct BoardPlugin;
 impl Plugin for BoardPlugin {
     fn build(&self, app: &mut App) {
@@ -289,23 +298,22 @@ impl Plugin for BoardPlugin {
             .init_resource::<SquareMaterials>()
             .init_resource::<PlayerTurn>()
             .add_event::<ResetSelectedEvent>()
+            .configure_sets(
+                (
+                    CoreSet::UpdateFlush,
+                    MySystem::SelectSquare,
+                    MySystem::MovePiece,
+                    MySystem::SelectPiece,
+                    MySystem::ResetSelected,
+                )
+                    .chain(),
+            )
             .add_startup_system(create_board)
             .add_system(color_squares)
-            .add_system(select_square.label("select_square"))
-            .add_system(
-                // move_piece needs to run before select_piece
-                move_piece
-                    
-                    .after("select_square")
-                    .before("select_piece"),
-            )
-            .add_system(
-                select_piece
-                    
-                    .after("select_square")
-                    .label("select_piece"),
-            )
+            .add_system(select_square.in_base_set(MySystem::SelectSquare))
+            .add_system(move_piece.in_base_set(MySystem::MovePiece))
+            .add_system(select_piece.in_base_set(MySystem::SelectPiece))
             .add_system(despawn_taken_pieces)
-            .add_system(reset_selected.after("select_square"));
+            .add_system(reset_selected.after(MySystem::ResetSelected));
     }
 }
