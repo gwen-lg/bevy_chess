@@ -21,7 +21,7 @@ fn main() {
             }),
             ..default()
         }))
-        .init_resource::<PickingCamera>()
+        //.init_resource::<PickingCamera>()
         .add_plugins(DefaultPickingPlugins)
         .add_plugin(BoardPlugin)
         .add_plugin(PiecesPlugin)
