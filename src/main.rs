@@ -42,7 +42,7 @@ fn setup(mut commands: Commands) {
         .insert_bundle(PickingCameraBundle::default())
         // Light
         .commands()
-        .spawn_bundle(LightBundle {
+        .spawn_bundle(PointLightBundle {
             transform: Transform::from_translation(Vec3::new(4.0, 8.0, 4.0)),
             ..Default::default()
         });
