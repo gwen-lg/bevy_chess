@@ -1,6 +1,6 @@
 use crate::pieces::*;
 use bevy::{app::AppExit, prelude::*};
-use bevy_mod_picking::*;
+use bevy_mod_picking::prelude::*;
 
 #[derive(Component)]
 pub struct Square {
@@ -46,29 +46,29 @@ fn color_squares(
     selected_square: Res<SelectedSquare>,
     materials: Res<SquareMaterials>,
     mut query: Query<(Entity, &Square, &mut Handle<StandardMaterial>)>,
-    picking_camera_query: Query<&PickingCamera>,
+    //picking_camera_query: Query<&RaycastMesh<RaycastPickingSet>>,
 ) {
     // Get entity under the cursor, if there is one
-    let top_entity = match picking_camera_query.iter().last() {
-        Some(picking_camera) => match picking_camera.intersect_top() {
-            Some((entity, _intersection)) => Some(entity),
-            None => None,
-        },
-        None => None,
-    };
+    // let top_entity = match picking_camera_query.iter().last() {
+    //     Some(picking_camera) => match picking_camera.intersect_top() {
+    //         Some((entity, _intersection)) => Some(entity),
+    //         None => None,
+    //     },
+    //     None => None,
+    // };
 
-    for (entity, square, mut material) in query.iter_mut() {
-        // Change the material
-        *material = if Some(entity) == top_entity {
-            materials.highlight_color.clone()
-        } else if Some(entity) == selected_square.entity {
-            materials.selected_color.clone()
-        } else if square.is_white() {
-            materials.white_color.clone()
-        } else {
-            materials.black_color.clone()
-        };
-    }
+    // for (entity, square, mut material) in query.iter_mut() {
+    //     // Change the material
+    //     *material = if Some(entity) == top_entity {
+    //         materials.highlight_color.clone()
+    //     } else if Some(entity) == selected_square.entity {
+    //         materials.selected_color.clone()
+    //     } else if square.is_white() {
+    //         materials.white_color.clone()
+    //     } else {
+    //         materials.black_color.clone()
+    //     };
+    // }
 }
 
 #[derive(Resource)]
@@ -123,7 +123,7 @@ fn select_square(
     mut selected_square: ResMut<SelectedSquare>,
     mut selected_piece: ResMut<SelectedPiece>,
     squares_query: Query<&Square>,
-    picking_camera_query: Query<&PickingCamera>,
+    //picking_camera_query: Query<&PickingCamera>,
 ) {
     // Only run if the left button is pressed
     if !mouse_button_inputs.just_pressed(MouseButton::Left) {
@@ -131,18 +131,18 @@ fn select_square(
     }
 
     // Get the square under the cursor and set it as the selected
-    if let Some(picking_camera) = picking_camera_query.iter().last() {
-        if let Some((square_entity, _intersection)) = picking_camera.intersect_top() {
-            if let Ok(_square) = squares_query.get(square_entity) {
-                // Mark it as selected
-                selected_square.entity = Some(square_entity);
-            }
-        } else {
-            // Player clicked outside the board, deselect everything
-            selected_square.entity = None;
-            selected_piece.entity = None;
-        }
-    }
+    // if let Some(picking_camera) = picking_camera_query.iter().last() {
+    //     if let Some((square_entity, _intersection)) = picking_camera.intersect_top() {
+    //         if let Ok(_square) = squares_query.get(square_entity) {
+    //             // Mark it as selected
+    //             selected_square.entity = Some(square_entity);
+    //         }
+    //     } else {
+    //         // Player clicked outside the board, deselect everything
+    //         selected_square.entity = None;
+    //         selected_piece.entity = None;
+    //     }
+    // }
 }
 
 fn select_piece(
