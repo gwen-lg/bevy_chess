@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy::window::WindowResolution;
 use bevy_mod_picking::*;
 
 mod pieces;
@@ -13,14 +14,13 @@ fn main() {
         // Set antialiasing to use 4 samples
         .insert_resource(Msaa { samples: 4 })
         .add_plugins(DefaultPlugins.set(WindowPlugin {
-            window: WindowDescriptor {
+            primary_window: Some(Window {
                 title: "Chess!".to_string(),
-                width: 600.,
-                height: 600.,
-              ..default()
-            },
+                resolution: WindowResolution::new(600., 600.),
+                ..default()
+            }),
             ..default()
-          }))
+        }))
         .init_resource::<PickingCamera>()
         .add_plugin(PickingPlugin)
         .add_plugin(BoardPlugin)
