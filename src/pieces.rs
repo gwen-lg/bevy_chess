@@ -404,7 +404,7 @@ fn spawn_king(
                 material: material.clone(),
                 transform: {
                     let mut transform = Transform::from_translation(Vec3::new(-0.2, 0., -1.9));
-                    transform.apply_non_uniform_scale(Vec3::new(0.2, 0.2, 0.2));
+                    transform.scale *= Vec3::new(0.2, 0.2, 0.2);
                     transform
                 },
                 ..Default::default()
@@ -414,7 +414,7 @@ fn spawn_king(
                 material,
                 transform: {
                     let mut transform = Transform::from_translation(Vec3::new(-0.2, 0., -1.9));
-                    transform.apply_non_uniform_scale(Vec3::new(0.2, 0.2, 0.2));
+                    transform.scale *= Vec3::new(0.2, 0.2, 0.2);
                     transform
                 },
                 ..Default::default()
@@ -453,7 +453,7 @@ fn spawn_knight(
                 material: material.clone(),
                 transform: {
                     let mut transform = Transform::from_translation(Vec3::new(-0.2, 0., 0.9));
-                    transform.apply_non_uniform_scale(Vec3::new(0.2, 0.2, 0.2));
+                    transform.scale *= Vec3::new(0.2, 0.2, 0.2);
                     transform
                 },
                 ..Default::default()
@@ -463,7 +463,7 @@ fn spawn_knight(
                 material,
                 transform: {
                     let mut transform = Transform::from_translation(Vec3::new(-0.2, 0., 0.9));
-                    transform.apply_non_uniform_scale(Vec3::new(0.2, 0.2, 0.2));
+                    transform.scale *= Vec3::new(0.2, 0.2, 0.2);
                     transform
                 },
                 ..Default::default()
@@ -500,7 +500,7 @@ fn spawn_queen(
                 material,
                 transform: {
                     let mut transform = Transform::from_translation(Vec3::new(-0.2, 0., -0.95));
-                    transform.apply_non_uniform_scale(Vec3::new(0.2, 0.2, 0.2));
+                    transform.scale *= Vec3::new(0.2, 0.2, 0.2);
                     transform
                 },
                 ..Default::default()
@@ -537,7 +537,7 @@ fn spawn_bishop(
                 material,
                 transform: {
                     let mut transform = Transform::from_translation(Vec3::new(-0.1, 0., 0.));
-                    transform.apply_non_uniform_scale(Vec3::new(0.2, 0.2, 0.2));
+                    transform.scale *= Vec3::new(0.2, 0.2, 0.2);
                     transform
                 },
                 ..Default::default()
@@ -574,7 +574,7 @@ fn spawn_rook(
                 material,
                 transform: {
                     let mut transform = Transform::from_translation(Vec3::new(-0.1, 0., 1.8));
-                    transform.apply_non_uniform_scale(Vec3::new(0.2, 0.2, 0.2));
+                    transform.scale *= Vec3::new(0.2, 0.2, 0.2);
                     transform
                 },
                 ..Default::default()
@@ -611,7 +611,7 @@ fn spawn_pawn(
                 material,
                 transform: {
                     let mut transform = Transform::from_translation(Vec3::new(-0.2, 0., 2.6));
-                    transform.apply_non_uniform_scale(Vec3::new(0.2, 0.2, 0.2));
+                    transform.scale *= Vec3::new(0.2, 0.2, 0.2);
                     transform
                 },
                 ..Default::default()
