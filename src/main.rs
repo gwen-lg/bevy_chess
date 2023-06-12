@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 use bevy::window::WindowResolution;
-use bevy_mod_picking::*;
+use bevy_mod_picking::prelude::*;
 
 mod pieces;
 use pieces::*;
@@ -22,7 +22,7 @@ fn main() {
             ..default()
         }))
         .init_resource::<PickingCamera>()
-        .add_plugin(PickingPlugin)
+        .add_plugin(DefaultPickingPlugins)
         .add_plugin(BoardPlugin)
         .add_plugin(PiecesPlugin)
         .add_plugin(UIPlugin)
@@ -40,7 +40,7 @@ fn setup(mut commands: Commands) {
             )),
             ..Default::default()
         })
-        .insert(PickingCameraBundle::default())
+        .insert(RaycastPickCamera::default())
         // Light
         .commands()
         .spawn(PointLightBundle {
