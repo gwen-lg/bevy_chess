@@ -11,7 +11,7 @@ fn init_next_move_text(mut commands: Commands, asset_server: ResMut<AssetServer>
 
     commands
         // root node
-        .spawn_bundle(NodeBundle {
+        .spawn(NodeBundle {
             style: Style {
                 position_type: PositionType::Absolute,
                 position: UiRect {
@@ -25,7 +25,7 @@ fn init_next_move_text(mut commands: Commands, asset_server: ResMut<AssetServer>
         })
         .with_children(|parent| {
             parent
-                .spawn_bundle(TextBundle {
+                .spawn(TextBundle {
                     text: Text::from_section(
                         "Next move: White",
                         TextStyle {

@@ -383,7 +383,7 @@ fn spawn_king(
 ) {
     commands
         // Spawn parent entity
-        .spawn_bundle(PbrBundle {
+        .spawn(PbrBundle {
             transform: Transform::from_translation(Vec3::new(
                 position.0 as f32,
                 0.,
@@ -399,7 +399,7 @@ fn spawn_king(
         })
         // Add children to the parent
         .with_children(|parent| {
-            parent.spawn_bundle(PbrBundle {
+            parent.spawn(PbrBundle {
                 mesh,
                 material: material.clone(),
                 transform: {
@@ -409,7 +409,7 @@ fn spawn_king(
                 },
                 ..Default::default()
             });
-            parent.spawn_bundle(PbrBundle {
+            parent.spawn(PbrBundle {
                 mesh: mesh_cross,
                 material,
                 transform: {
@@ -432,7 +432,7 @@ fn spawn_knight(
 ) {
     commands
         // Spawn parent entity
-        .spawn_bundle(PbrBundle {
+        .spawn(PbrBundle {
             transform: Transform::from_translation(Vec3::new(
                 position.0 as f32,
                 0.,
@@ -448,7 +448,7 @@ fn spawn_knight(
         })
         // Add children to the parent
         .with_children(|parent| {
-            parent.spawn_bundle(PbrBundle {
+            parent.spawn(PbrBundle {
                 mesh: mesh_1,
                 material: material.clone(),
                 transform: {
@@ -458,7 +458,7 @@ fn spawn_knight(
                 },
                 ..Default::default()
             });
-            parent.spawn_bundle(PbrBundle {
+            parent.spawn(PbrBundle {
                 mesh: mesh_2,
                 material,
                 transform: {
@@ -480,7 +480,7 @@ fn spawn_queen(
 ) {
     commands
         // Spawn parent entity
-        .spawn_bundle(PbrBundle {
+        .spawn(PbrBundle {
             transform: Transform::from_translation(Vec3::new(
                 position.0 as f32,
                 0.,
@@ -495,7 +495,7 @@ fn spawn_queen(
             y: position.1,
         })
         .with_children(|parent| {
-            parent.spawn_bundle(PbrBundle {
+            parent.spawn(PbrBundle {
                 mesh,
                 material,
                 transform: {
@@ -517,7 +517,7 @@ fn spawn_bishop(
 ) {
     commands
         // Spawn parent entity
-        .spawn_bundle(PbrBundle {
+        .spawn(PbrBundle {
             transform: Transform::from_translation(Vec3::new(
                 position.0 as f32,
                 0.,
@@ -532,7 +532,7 @@ fn spawn_bishop(
             y: position.1,
         })
         .with_children(|parent| {
-            parent.spawn_bundle(PbrBundle {
+            parent.spawn(PbrBundle {
                 mesh,
                 material,
                 transform: {
@@ -554,7 +554,7 @@ fn spawn_rook(
 ) {
     commands
         // Spawn parent entity
-        .spawn_bundle(PbrBundle {
+        .spawn(PbrBundle {
             transform: Transform::from_translation(Vec3::new(
                 position.0 as f32,
                 0.,
@@ -569,7 +569,7 @@ fn spawn_rook(
             y: position.1,
         })
         .with_children(|parent| {
-            parent.spawn_bundle(PbrBundle {
+            parent.spawn(PbrBundle {
                 mesh,
                 material,
                 transform: {
@@ -591,7 +591,7 @@ fn spawn_pawn(
 ) {
     commands
         // Spawn parent entity
-        .spawn_bundle(PbrBundle {
+        .spawn(PbrBundle {
             transform: Transform::from_translation(Vec3::new(
                 position.0 as f32,
                 0.,
@@ -606,7 +606,7 @@ fn spawn_pawn(
             y: position.1,
         })
         .with_children(|parent| {
-            parent.spawn_bundle(PbrBundle {
+            parent.spawn(PbrBundle {
                 mesh,
                 material,
                 transform: {

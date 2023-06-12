@@ -25,7 +25,7 @@ fn create_board(
     for i in 0..8 {
         for j in 0..8 {
             commands
-                .spawn_bundle(PbrBundle {
+                .spawn(PbrBundle {
                     mesh: mesh.clone(),
                     // Change material according to position to get alternating pattern
                     material: if (i + j + 1) % 2 == 0 {
