@@ -21,7 +21,6 @@ fn init_next_move_text(mut commands: Commands, asset_server: ResMut<AssetServer>
                 },
                 ..Default::default()
             },
-            color: Color::NONE,
             ..Default::default()
         })
         .with_children(|parent| {
