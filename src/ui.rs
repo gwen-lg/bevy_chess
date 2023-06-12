@@ -11,7 +11,6 @@ fn init_next_move_text(mut commands: Commands, asset_server: ResMut<AssetServer>
 
     commands
         // root node
-        .commands()
         .spawn_bundle(NodeBundle {
             style: Style {
                 position_type: PositionType::Absolute,
