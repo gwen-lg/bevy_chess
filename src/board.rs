@@ -36,7 +36,7 @@ fn create_board(
                     transform: Transform::from_translation(Vec3::new(i as f32, 0., j as f32)),
                     ..Default::default()
                 })
-                .insert_bundle(PickableBundle::default())
+                .insert(PickableBundle::default())
                 .insert(Square { x: i, y: j });
         }
     }

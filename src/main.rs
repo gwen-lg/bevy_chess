@@ -40,7 +40,7 @@ fn setup(mut commands: Commands) {
             )),
             ..Default::default()
         })
-        .insert_bundle(PickingCameraBundle::default())
+        .insert(PickingCameraBundle::default())
         // Light
         .commands()
         .spawn(PointLightBundle {
