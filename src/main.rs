@@ -22,7 +22,12 @@ fn main() {
             ..default()
         }))
         //.init_resource::<PickingCamera>()
-        .add_plugins(DefaultPickingPlugins)
+        .add_plugins(
+            DefaultPickingPlugins
+                .build()
+                .disable::<DefaultHighlightingPlugin>()
+                .disable::<DebugPickingPlugin>(),
+        )
         .add_plugin(BoardPlugin)
         .add_plugin(PiecesPlugin)
         .add_plugin(UIPlugin)

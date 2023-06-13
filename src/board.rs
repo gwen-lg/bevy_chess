@@ -1,5 +1,6 @@
 use crate::pieces::*;
-use bevy::{app::AppExit, prelude::*};
+use bevy::app::AppExit;
+use bevy::prelude::*;
 use bevy_mod_picking::prelude::*;
 
 #[derive(Component)]
@@ -16,7 +17,7 @@ impl Square {
 fn create_board(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
-    materials: Res<SquareMaterials>,
+    materials: ResMut<SquareMaterials>,
 ) {
     // Add meshes
     let mesh = meshes.add(Mesh::from(shape::Plane::from_size(1.)));
@@ -25,18 +26,22 @@ fn create_board(
     for i in 0..8 {
         for j in 0..8 {
             commands
-                .spawn(PbrBundle {
-                    mesh: mesh.clone(),
-                    // Change material according to position to get alternating pattern
-                    material: if (i + j + 1) % 2 == 0 {
-                        materials.white_color.clone()
-                    } else {
-                        materials.black_color.clone()
+                .spawn((
+                    PbrBundle {
+                        mesh: mesh.clone(),
+                        // Change material according to position to get alternating pattern
+                        material: if (i + j + 1) % 2 == 0 {
+                            materials.white_color.clone()
+                        } else {
+                            materials.black_color.clone()
+                        },
+                        transform: Transform::from_translation(Vec3::new(i as f32, 0., j as f32)),
+                        ..Default::default()
                     },
-                    transform: Transform::from_translation(Vec3::new(i as f32, 0., j as f32)),
-                    ..Default::default()
-                })
-                .insert(PickableBundle::default())
+                    PickableBundle::default(),
+                    RaycastPickTarget::default(),
+                    OnPointer::<Click>::run_callback(select_square), // Click
+                ))
                 .insert(Square { x: i, y: j });
         }
     }
@@ -119,30 +124,30 @@ impl PlayerTurn {
 }
 
 fn select_square(
-    mouse_button_inputs: Res<Input<MouseButton>>,
+    In(event): In<ListenedEvent<Click>>,
+    //mouse_button_inputs: Res<Input<MouseButton>>,
     mut selected_square: ResMut<SelectedSquare>,
-    mut selected_piece: ResMut<SelectedPiece>,
-    squares_query: Query<&Square>,
+    //mut selected_piece: ResMut<SelectedPiece>,
+    //squares_query: Query<&Square>,
     //picking_camera_query: Query<&PickingCamera>,
-) {
-    // Only run if the left button is pressed
-    if !mouse_button_inputs.just_pressed(MouseButton::Left) {
-        return;
-    }
-
+) -> Bubble {
+    //println!("Click on square : {event:#?}");
+    let square_entity = event.target;
     // Get the square under the cursor and set it as the selected
-    // if let Some(picking_camera) = picking_camera_query.iter().last() {
-    //     if let Some((square_entity, _intersection)) = picking_camera.intersect_top() {
-    //         if let Ok(_square) = squares_query.get(square_entity) {
-    //             // Mark it as selected
-    //             selected_square.entity = Some(square_entity);
-    //         }
-    //     } else {
-    //         // Player clicked outside the board, deselect everything
-    //         selected_square.entity = None;
-    //         selected_piece.entity = None;
-    //     }
+    //if let Some(picking_camera) = picking_camera_query.iter().last() {
+    //if let Some((square_entity, _intersection)) = picking_camera.intersect_top() {
+    //if let Ok(_square) = squares_query.get(square_entity) {
+    // Mark it as selected
+    selected_square.entity = Some(square_entity);
+    //}
+    // } else {
+    //TODO
+    //     // Player clicked outside the board, deselect everything
+    //     selected_square.entity = None;
+    //     selected_piece.entity = None;
     // }
+    //}
+    Bubble::Up // Determines if the event should continue to bubble through the hierarchy.
 }
 
 fn select_piece(
@@ -310,7 +315,7 @@ impl Plugin for BoardPlugin {
             )
             .add_startup_system(create_board)
             .add_system(color_squares)
-            .add_system(select_square.in_base_set(MySystem::SelectSquare))
+            //.add_system(select_square.in_base_set(MySystem::SelectSquare))
             .add_system(move_piece.in_base_set(MySystem::MovePiece))
             .add_system(select_piece.in_base_set(MySystem::SelectPiece))
             .add_system(despawn_taken_pieces)

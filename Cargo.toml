@@ -8,4 +8,4 @@ edition = "2021"
 
 [dependencies]
 bevy = "0.10"
-bevy_mod_picking = "0.13"
+bevy_mod_picking = { version = "0.13", features = ["selection"]}
