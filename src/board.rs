@@ -41,18 +41,59 @@ fn create_board(
                     PickableBundle::default(),
                     RaycastPickTarget::default(),
                     OnPointer::<Click>::run_callback(select_square), // Click
+                    OnPointer::<Over>::send_event::<ColorSquare>(),
+                    OnPointer::<Out>::send_event::<ColorSquare>(),
                 ))
                 .insert(Square { x: i, y: j });
         }
     }
 }
 
+enum SquareStatus {
+    Over,
+    Free,
+}
+struct ColorSquare {
+    entity: Entity,
+    status: SquareStatus,
+}
+impl From<ListenedEvent<Over>> for ColorSquare {
+    fn from(event: ListenedEvent<Over>) -> Self {
+        ColorSquare {
+            entity: event.target,
+            status: SquareStatus::Over,
+        }
+    }
+}
+impl From<ListenedEvent<Out>> for ColorSquare {
+    fn from(event: ListenedEvent<Out>) -> Self {
+        ColorSquare {
+            entity: event.target,
+            status: SquareStatus::Free,
+        }
+    }
+}
+
 fn color_squares(
+    mut color_materials: EventReader<ColorSquare>,
     selected_square: Res<SelectedSquare>,
     materials: Res<SquareMaterials>,
     mut query: Query<(Entity, &Square, &mut Handle<StandardMaterial>)>,
     //picking_camera_query: Query<&RaycastMesh<RaycastPickingSet>>,
 ) {
+    for event in color_materials.iter() {
+        for (entity, square, mut material) in query.iter_mut() {
+            *material = if event.entity == entity {
+                materials.highlight_color.clone()
+            } else if Some(entity) == selected_square.entity {
+                materials.selected_color.clone()
+            } else if square.is_white() {
+                materials.white_color.clone()
+            } else {
+                materials.black_color.clone()
+            };
+        }
+    }
     // Get entity under the cursor, if there is one
     // let top_entity = match picking_camera_query.iter().last() {
     //     Some(picking_camera) => match picking_camera.intersect_top() {
@@ -303,6 +344,7 @@ impl Plugin for BoardPlugin {
             .init_resource::<SquareMaterials>()
             .init_resource::<PlayerTurn>()
             .add_event::<ResetSelectedEvent>()
+            .add_event::<ColorSquare>()
             .configure_sets(
                 (
                     CoreSet::UpdateFlush,
@@ -319,6 +361,7 @@ impl Plugin for BoardPlugin {
             .add_system(move_piece.in_base_set(MySystem::MovePiece))
             .add_system(select_piece.in_base_set(MySystem::SelectPiece))
             .add_system(despawn_taken_pieces)
-            .add_system(reset_selected.in_base_set(MySystem::ResetSelected));
+            .add_system(reset_selected.in_base_set(MySystem::ResetSelected))
+            .add_system(color_squares.run_if(on_event::<ColorSquare>()));
     }
 }
