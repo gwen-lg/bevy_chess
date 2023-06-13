@@ -49,9 +49,11 @@ fn create_board(
     }
 }
 
+#[derive(PartialEq)]
 enum SquareStatus {
     Over,
     Free,
+    Unselect,
 }
 struct ColorSquare {
     entity: Entity,
@@ -78,43 +80,27 @@ fn color_squares(
     mut color_materials: EventReader<ColorSquare>,
     selected_square: Res<SelectedSquare>,
     materials: Res<SquareMaterials>,
-    mut query: Query<(Entity, &Square, &mut Handle<StandardMaterial>)>,
-    //picking_camera_query: Query<&RaycastMesh<RaycastPickingSet>>,
+    square_query: Query<&Square>,
+    mut mat_query: Query<&mut Handle<StandardMaterial>>,
+    //mut query: Query<(&Square, &mut Handle<StandardMaterial>)>,
 ) {
     for event in color_materials.iter() {
-        for (entity, square, mut material) in query.iter_mut() {
-            *material = if event.entity == entity {
-                materials.highlight_color.clone()
-            } else if Some(entity) == selected_square.entity {
-                materials.selected_color.clone()
-            } else if square.is_white() {
-                materials.white_color.clone()
-            } else {
-                materials.black_color.clone()
-            };
+        if let Ok(square) = square_query.get(event.entity) {
+            if let Ok(mut material) = mat_query.get_mut(event.entity) {
+                *material = if event.status == SquareStatus::Over {
+                    materials.highlight_color.clone()
+                } else if selected_square.entity.is_some()
+                    && selected_square.entity.unwrap() == event.entity
+                {
+                    materials.selected_color.clone()
+                } else if square.is_white() {
+                    materials.white_color.clone()
+                } else {
+                    materials.black_color.clone()
+                };
+            }
         }
     }
-    // Get entity under the cursor, if there is one
-    // let top_entity = match picking_camera_query.iter().last() {
-    //     Some(picking_camera) => match picking_camera.intersect_top() {
-    //         Some((entity, _intersection)) => Some(entity),
-    //         None => None,
-    //     },
-    //     None => None,
-    // };
-
-    // for (entity, square, mut material) in query.iter_mut() {
-    //     // Change the material
-    //     *material = if Some(entity) == top_entity {
-    //         materials.highlight_color.clone()
-    //     } else if Some(entity) == selected_square.entity {
-    //         materials.selected_color.clone()
-    //     } else if square.is_white() {
-    //         materials.white_color.clone()
-    //     } else {
-    //         materials.black_color.clone()
-    //     };
-    // }
 }
 
 #[derive(Resource)]
@@ -170,16 +156,20 @@ fn select_square(
     mut selected_square: ResMut<SelectedSquare>,
     //mut selected_piece: ResMut<SelectedPiece>,
     //squares_query: Query<&Square>,
-    //picking_camera_query: Query<&PickingCamera>,
+    mut ev_solorsquare: EventWriter<ColorSquare>,
 ) -> Bubble {
-    //println!("Click on square : {event:#?}");
-    let square_entity = event.target;
+    if let Some(ent) = selected_square.entity {
+        ev_solorsquare.send(ColorSquare {
+            entity: ent,
+            status: SquareStatus::Unselect,
+        });
+    }
     // Get the square under the cursor and set it as the selected
     //if let Some(picking_camera) = picking_camera_query.iter().last() {
     //if let Some((square_entity, _intersection)) = picking_camera.intersect_top() {
     //if let Ok(_square) = squares_query.get(square_entity) {
     // Mark it as selected
-    selected_square.entity = Some(square_entity);
+    selected_square.entity = Some(event.target);
     //}
     // } else {
     //TODO
@@ -356,7 +346,7 @@ impl Plugin for BoardPlugin {
                     .chain(),
             )
             .add_startup_system(create_board)
-            .add_system(color_squares)
+            //.add_system(color_squares)
             //.add_system(select_square.in_base_set(MySystem::SelectSquare))
             .add_system(move_piece.in_base_set(MySystem::MovePiece))
             .add_system(select_piece.in_base_set(MySystem::SelectPiece))
