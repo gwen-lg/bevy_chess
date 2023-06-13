@@ -70,10 +70,11 @@ impl Piece {
             PieceType::Pawn => {
                 if self.color == PieceColor::White {
                     // Normal move
-                    if new_position.0 as i8 - self.x as i8 == 1 && (self.y == new_position.1) {
-                        if color_of_square(new_position, &pieces).is_none() {
-                            return true;
-                        }
+                    if new_position.0 as i8 - self.x as i8 == 1
+                        && (self.y == new_position.1)
+                        && color_of_square(new_position, &pieces).is_none()
+                    {
+                        return true;
                     }
 
                     // Move 2 squares
@@ -81,26 +82,25 @@ impl Piece {
                         && new_position.0 as i8 - self.x as i8 == 2
                         && (self.y == new_position.1)
                         && is_path_empty((self.x, self.y), new_position, &pieces)
+                        && color_of_square(new_position, &pieces).is_none()
                     {
-                        if color_of_square(new_position, &pieces).is_none() {
-                            return true;
-                        }
+                        return true;
                     }
 
                     // Take piece
                     if new_position.0 as i8 - self.x as i8 == 1
                         && (self.y as i8 - new_position.1 as i8).abs() == 1
+                        && color_of_square(new_position, &pieces) == Some(PieceColor::Black)
                     {
-                        if color_of_square(new_position, &pieces) == Some(PieceColor::Black) {
-                            return true;
-                        }
+                        return true;
                     }
                 } else {
                     // Normal move
-                    if new_position.0 as i8 - self.x as i8 == -1 && (self.y == new_position.1) {
-                        if color_of_square(new_position, &pieces).is_none() {
-                            return true;
-                        }
+                    if new_position.0 as i8 - self.x as i8 == -1
+                        && (self.y == new_position.1)
+                        && color_of_square(new_position, &pieces).is_none()
+                    {
+                        return true;
                     }
 
                     // Move 2 squares
@@ -108,19 +108,17 @@ impl Piece {
                         && new_position.0 as i8 - self.x as i8 == -2
                         && (self.y == new_position.1)
                         && is_path_empty((self.x, self.y), new_position, &pieces)
+                        && color_of_square(new_position, &pieces).is_none()
                     {
-                        if color_of_square(new_position, &pieces).is_none() {
-                            return true;
-                        }
+                        return true;
                     }
 
                     // Take piece
                     if new_position.0 as i8 - self.x as i8 == -1
                         && (self.y as i8 - new_position.1 as i8).abs() == 1
+                        && color_of_square(new_position, &pieces) == Some(PieceColor::White)
                     {
-                        if color_of_square(new_position, &pieces) == Some(PieceColor::White) {
-                            return true;
-                        }
+                        return true;
                     }
                 }
 
