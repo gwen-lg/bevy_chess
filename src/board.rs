@@ -314,6 +314,6 @@ impl Plugin for BoardPlugin {
             .add_system(move_piece.in_base_set(MySystem::MovePiece))
             .add_system(select_piece.in_base_set(MySystem::SelectPiece))
             .add_system(despawn_taken_pieces)
-            .add_system(reset_selected.after(MySystem::ResetSelected));
+            .add_system(reset_selected.in_base_set(MySystem::ResetSelected));
     }
 }
