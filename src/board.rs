@@ -320,7 +320,6 @@ fn despawn_taken_pieces(
 #[derive(Debug, Hash, PartialEq, Eq, Clone, SystemSet)]
 #[system_set(base)]
 enum MySystem {
-    SelectSquare,
     MovePiece, // move_piece needs to run before select_piece
     SelectPiece,
     ResetSelected,
@@ -338,7 +337,6 @@ impl Plugin for BoardPlugin {
             .configure_sets(
                 (
                     CoreSet::UpdateFlush,
-                    MySystem::SelectSquare,
                     MySystem::MovePiece,
                     MySystem::SelectPiece,
                     MySystem::ResetSelected,
@@ -346,8 +344,6 @@ impl Plugin for BoardPlugin {
                     .chain(),
             )
             .add_startup_system(create_board)
-            //.add_system(color_squares)
-            //.add_system(select_square.in_base_set(MySystem::SelectSquare))
             .add_system(move_piece.in_base_set(MySystem::MovePiece))
             .add_system(select_piece.in_base_set(MySystem::SelectPiece))
             .add_system(despawn_taken_pieces)
